@@ -45,6 +45,12 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git checkout docs
 
+    - name: Remove openapi.json from docs branch
+      run: |
+        if [ -f "openapi.json" ]; then
+          rm openapi.json
+        fi
+
     - name: Apply stashed changes
       run: |
         git stash pop
