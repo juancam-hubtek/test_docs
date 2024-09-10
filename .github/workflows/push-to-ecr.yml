@@ -36,7 +36,7 @@ jobs:
     
     - name: Stash changes
       run: |
-        git stash
+        git stash -u
 
     # 5. Switch to the docs branch
     - name: Checkout the docs branch
