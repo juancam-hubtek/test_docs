@@ -3,7 +3,7 @@ name: Generate OpenAPI JSON
 on:
   push:
     branches:
-      - master
+      - main
       - test
       - develop
   workflow_dispatch:
