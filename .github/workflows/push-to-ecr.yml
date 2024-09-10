@@ -44,7 +44,6 @@ jobs:
     # 6. Copy openapi.json to the docs branch
     - name: Copy openapi.json to the root of the docs branch
       run: |
-        cp openapi.json ./
         git add openapi.json
         git commit -m "Update OpenAPI JSON"
         git push origin docs
