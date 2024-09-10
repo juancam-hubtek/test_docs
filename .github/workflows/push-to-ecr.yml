@@ -33,6 +33,10 @@ jobs:
     - name: Run script.py to generate openapi.json
       run: |
         python script.py
+    
+    - name: Stash changes
+      run: |
+        git stash
 
     # 5. Switch to the docs branch
     - name: Checkout the docs branch
@@ -40,6 +44,10 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git checkout docs
+
+    - name: Apply stashed changes
+      run: |
+        git stash pop
 
     # 6. Copy openapi.json to the docs branch
     - name: Copy openapi.json to the root of the docs branch
