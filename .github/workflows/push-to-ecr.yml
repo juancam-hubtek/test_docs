@@ -46,6 +46,5 @@ jobs:
       run: |
         cp openapi.json ./
         git add openapi.json
-        git diff --name-only --cached | grep -v "openapi.json" | xargs git reset
         git commit -m "Update OpenAPI JSON"
         git push origin docs
