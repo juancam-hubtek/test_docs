@@ -29,6 +29,10 @@ jobs:
       run: |
         curl -o latest_openapi.json https://rtr-api.gotabi.ai/api-rtr/openapi.json
     
+    - name: Overwrite openapi.json with the new one
+      run: |
+        mv latest_openapi.json openapi.json
+    
     # 5. Switch to the docs branch
     - name: Checkout the docs branch
       run: |
