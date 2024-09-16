@@ -1,1 +1,4771 @@
-
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TABi QUOTING API",
+    "description": "TABi Quoting WebService",
+    "version": "r1169.befcf09"
+  },
+  "servers": [
+    {
+      "url": "/api-quoting"
+    }
+  ],
+  "paths": {
+    "/api/status": {
+      "get": {
+        "tags": [
+          "Status"
+        ],
+        "summary": "Read Status",
+        "operationId": "read_status_api_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                },
+                "examples": {
+                  "Full": {
+                    "detail": [
+                      {
+                        "loc": [
+                          "string"
+                        ],
+                        "msg": "string",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "Summary": {
+                    "value": {
+                      "detail": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/admin/users": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Read Users",
+        "operationId": "read_users_api_admin_users_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "title": "Skip",
+              "default": 0
+            },
+            "name": "skip",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "title": "Limit",
+              "default": 100
+            },
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "type": "array",
+                  "title": "Response Read Users Api Admin Users Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create User",
+        "operationId": "create_user_api_admin_users_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                },
+                "examples": {
+                  "Full": {
+                    "detail": [
+                      {
+                        "loc": [
+                          "string"
+                        ],
+                        "msg": "string",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "Summary": {
+                    "value": {
+                      "detail": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "401": {
+            "description": "Incorrect user or password"
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Read User",
+        "operationId": "read_user_api_admin_users__user_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            },
+            "name": "user_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Delete User",
+        "operationId": "delete_user_api_admin_users__user_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            },
+            "name": "user_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                },
+                "examples": {
+                  "Full": {
+                    "detail": [
+                      {
+                        "loc": [
+                          "string"
+                        ],
+                        "msg": "string",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "Summary": {
+                    "value": {
+                      "detail": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "401": {
+            "description": "Incorrect user or password"
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/users/{username}": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Update User",
+        "operationId": "update_user_api_admin_users__username__put",
+        "parameters": [
+          {
+            "description": "Username",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username",
+              "description": "Username"
+            },
+            "name": "username",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            },
+            "name": "user_id",
+            "in": "query"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                },
+                "examples": {
+                  "Full": {
+                    "detail": [
+                      {
+                        "loc": [
+                          "string"
+                        ],
+                        "msg": "string",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "Summary": {
+                    "value": {
+                      "detail": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "401": {
+            "description": "Incorrect user or password"
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/quoting/limit": {
+      "get": {
+        "tags": [
+          "Admin Quoting"
+        ],
+        "summary": "Limit Get",
+        "operationId": "limit_get_api_admin_quoting_limit_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "title": "Response Limit Get Api Admin Quoting Limit Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Admin Quoting"
+        ],
+        "summary": "Limit Post",
+        "operationId": "limit_post_api_admin_quoting_limit_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "number",
+              "title": "Limit"
+            },
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "title": "Response Limit Post Api Admin Quoting Limit Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/calculate/{customer_oid}": {
+      "post": {
+        "tags": [
+          "Quoting"
+        ],
+        "summary": "Calculate",
+        "operationId": "calculate_api_quoting_calculate__customer_oid__post",
+        "parameters": [
+          {
+            "description": "My Customer's Customer OID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Customer Oid",
+              "description": "My Customer's Customer OID"
+            },
+            "name": "customer_oid",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Input"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Output"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/baseline/calculate/{customer_oid}": {
+      "post": {
+        "tags": [
+          "Quoting"
+        ],
+        "summary": "Calculate Baseline",
+        "operationId": "calculate_baseline_api_quoting_baseline_calculate__customer_oid__post",
+        "parameters": [
+          {
+            "description": "My Customer's Customer OID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Customer Oid",
+              "description": "My Customer's Customer OID"
+            },
+            "name": "customer_oid",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputBaseLineRate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutputBaseLineRate"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/eia/index": {
+      "get": {
+        "tags": [
+          "Quoting"
+        ],
+        "summary": "Get Eia Index",
+        "operationId": "get_eia_index_api_quoting_eia_index_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "title": "Response Get Eia Index Api Quoting Eia Index Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/trailer_type/{customer_oid}": {
+      "post": {
+        "tags": [
+          "Quoting"
+        ],
+        "summary": "Check Trailer Type",
+        "description": "Query equipment type for Customer's Customer OID and applies equipment_type logic to return the real trailer type from an inputkeyword. Can generate No go event(that not is saved to exception list) if is defined for that input keyword",
+        "operationId": "check_trailer_type_api_quoting_trailer_type__customer_oid__post",
+        "parameters": [
+          {
+            "description": "My Customer's Customer OID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Customer Oid",
+              "description": "My Customer's Customer OID"
+            },
+            "name": "customer_oid",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputEquipmentType"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutputEquipmentType"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/award/load_id/": {
+      "put": {
+        "tags": [
+          "Quoting"
+        ],
+        "summary": "Update Awarded From Report By Load Id",
+        "operationId": "update_awarded_from_report_by_load_id_api_quoting_award_load_id__put",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AwardInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/award/one_source/load_id/": {
+      "put": {
+        "tags": [
+          "Quoting"
+        ],
+        "summary": "Update External Portal Awarded From Report By Load Id",
+        "operationId": "update_external_portal_awarded_from_report_by_load_id_api_quoting_award_one_source_load_id__put",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AwardInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/award/external_portal/load_id/": {
+      "put": {
+        "tags": [
+          "Quoting"
+        ],
+        "summary": "Update External Portal Awarded From Report By Load Id",
+        "operationId": "update_external_portal_awarded_from_report_by_load_id_api_quoting_award_external_portal_load_id__put",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AwardInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/checks/restricted/{customer_oid}": {
+      "post": {
+        "tags": [
+          "Quoting Checks"
+        ],
+        "summary": "Check Restricted",
+        "description": "Check if the input has any type of restriction(NO GO) and returns it as events<br>If an event is emitted, also an exception report will be created and their OID returned",
+        "operationId": "check_restricted_api_quoting_checks_restricted__customer_oid__post",
+        "parameters": [
+          {
+            "description": "My Customer's Customer OID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Customer Oid",
+              "description": "My Customer's Customer OID"
+            },
+            "name": "customer_oid",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputRestricted"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutputRestricted"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/checks/fixed_price_lanes/{customer_oid}": {
+      "post": {
+        "tags": [
+          "Quoting Checks"
+        ],
+        "summary": "Check Fixed Price Lanes",
+        "description": "Check if the input has a fixed price and returns it",
+        "operationId": "check_fixed_price_lanes_api_quoting_checks_fixed_price_lanes__customer_oid__post",
+        "parameters": [
+          {
+            "description": "My Customer's Customer OID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Customer Oid",
+              "description": "My Customer's Customer OID"
+            },
+            "name": "customer_oid",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputFixedPriceLanes"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutputFixedPriceLanes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/checks/flags/{customer_oid}": {
+      "post": {
+        "tags": [
+          "Quoting Checks"
+        ],
+        "summary": "Check Flags",
+        "description": "Check if the customer_oid has flags and returns it",
+        "operationId": "check_flags_api_quoting_checks_flags__customer_oid__post",
+        "parameters": [
+          {
+            "description": "My Customer's Customer OID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Customer Oid",
+              "description": "My Customer's Customer OID"
+            },
+            "name": "customer_oid",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputFlags"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutputFlags"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasicOptional": []
+          },
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/api/quoting/email_notifications/send_email_notification/{customer_oid}": {
+      "post": {
+        "tags": [
+          "Email Notifications"
+        ],
+        "summary": "Post Send Email Notification",
+        "description": "Send email notification to customer's customer email",
+        "operationId": "post_send_email_notification_api_quoting_email_notifications_send_email_notification__customer_oid__post",
+        "parameters": [
+          {
+            "description": "My Customer's Customer OID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Customer Oid",
+              "description": "My Customer's Customer OID"
+            },
+            "name": "customer_oid",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "X-T-Id"
+            },
+            "name": "x-t-id",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/InputEmail"
+                  }
+                ],
+                "title": " Input",
+                "description": "List of events to send in the email"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutputEmail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APIEnum": {
+        "type": "string",
+        "enum": [
+          "DB",
+          "QUOTING",
+          "SPOT",
+          "SPOT_MEDIATOR",
+          "EMAIL",
+          "IDATA",
+          "E2OPEN_SPOT",
+          "RPA",
+          "OUTLOOK",
+          "PROMETEO",
+          "OFFER"
+        ],
+        "title": "APIEnum",
+        "description": "An enumeration."
+      },
+      "Accesorials": {
+        "properties": {
+          "accesorial": {
+            "items": {
+              "$ref": "#/components/schemas/Accessorial"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object",
+        "title": "Accesorials"
+      },
+      "Accessorial": {
+        "type": "string",
+        "enum": [
+          "LOAD",
+          "UNLOAD",
+          "HAZMAT",
+          "TARPS",
+          "RAMPS",
+          "ADDITIONAL_STOP",
+          "OTHER"
+        ],
+        "title": "Accessorial",
+        "description": "An enumeration."
+      },
+      "Action": {
+        "type": "string",
+        "enum": [
+          "ALERT_NOTIFICATION",
+          "GO",
+          "NO_GO",
+          "EXTRA_CHARGE",
+          "INFO",
+          "BASELINE_RATE",
+          "CONTRACTUAL_RATE"
+        ],
+        "title": "Action",
+        "description": "Type of action to do for an event"
+      },
+      "AwardInput": {
+        "properties": {
+          "customer_id": {
+            "type": "integer",
+            "title": "Customer Id"
+          },
+          "load_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Load Id"
+          },
+          "awarded": {
+            "type": "boolean",
+            "title": "Awarded"
+          },
+          "awarded_rate": {
+            "type": "number",
+            "title": "Awarded Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "customer_id",
+          "load_id",
+          "awarded"
+        ],
+        "title": "AwardInput"
+      },
+      "Commodities": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "weight": {
+            "type": "integer",
+            "title": "Weight"
+          },
+          "unit_type": {
+            "$ref": "#/components/schemas/Unit"
+          }
+        },
+        "type": "object",
+        "title": "Commodities"
+      },
+      "Commodity": {
+        "properties": {
+          "commodities": {
+            "items": {
+              "$ref": "#/components/schemas/Commodities"
+            },
+            "type": "array",
+            "title": "Commodities"
+          }
+        },
+        "type": "object",
+        "title": "Commodity"
+      },
+      "Environment": {
+        "type": "string",
+        "enum": [
+          "PROD",
+          "QA",
+          "TEST",
+          "DEV"
+        ],
+        "title": "Environment",
+        "description": "An enumeration."
+      },
+      "Event": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/EventType"
+          },
+          "action": {
+            "$ref": "#/components/schemas/Action"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "action",
+          "summary"
+        ],
+        "title": "Event"
+      },
+      "EventType": {
+        "type": "string",
+        "enum": [
+          "ADDITIONAL_STOPS",
+          "AFTER_HOURS",
+          "BASE_LINE_RATE",
+          "BILL_AMOUNT_MARGIN",
+          "CONDITIONED_LANE",
+          "CROSS_BORDER",
+          "DELIVERY_DATE",
+          "DELIVERY_TIME",
+          "DISTANCE_MARGIN",
+          "DISTANCE_TIERS",
+          "EQUIPMENT_TYPE",
+          "EXTRA_CHARGES_AND_RESTRICTIONS",
+          "FIXED_LANE",
+          "FSC",
+          "GREENSCREENS_CONFIDENCE_SCORE",
+          "TRUCKSTOP_SCORES",
+          "HOLIDAY",
+          "INTERNATIONAL_SHIPMENT",
+          "LANE_BY_STATE",
+          "LANE_SCORES",
+          "LEAD_TIME",
+          "No Linehaul Rate Found",
+          "LIVE_HANDLING",
+          "MARGIN_CONTROL",
+          "MILEAGE_CAP",
+          "MILEAGE_THRESHOLD",
+          "MINIMUM_RATE",
+          "NEGATIVE_RATE",
+          "PICKUP_DATE",
+          "PICKUP_TIME",
+          "QUOTES_AMOUNT_THRESHOLD",
+          "QUOTES_AMOUNT_THRESHOLD_ZIP",
+          "QUOTES_AMOUNT_THRESHOLD_CITY",
+          "QUOTES_AMOUNT_THRESHOLD_STATE",
+          "RE_BID_MINIMUM",
+          "RESTRICTED_LANE",
+          "Local/Round Trip",
+          "SAME_DAY_CUTOFF",
+          "SEASONALITY",
+          "SPOT",
+          "RTR",
+          "TRAILER_TYPE",
+          "TRANSIT_TIME_VARIANCE",
+          "TRUCK_TO_LOAD_RATIO",
+          "WEEKEND",
+          "WEIGHT_TIERS",
+          "TEMPERATURE",
+          "E2OPEN_SPOT",
+          "TRANSIT_TIME_DELIVERY",
+          "OFFER"
+        ],
+        "title": "EventType",
+        "description": "An enumeration."
+      },
+      "ExtraReportFields": {
+        "properties": {
+          "license": {
+            "type": "string",
+            "minLength": 1,
+            "title": "License"
+          },
+          "ids_list": {
+            "$ref": "#/components/schemas/IDsList"
+          },
+          "awarded_rate": {
+            "type": "number",
+            "title": "Awarded Rate"
+          },
+          "awarded_user": {
+            "type": "string",
+            "title": "Awarded User"
+          },
+          "e2open_offer_id": {
+            "type": "integer",
+            "title": "E2Open Offer Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ExtraReportFields"
+      },
+      "FromTo": {
+        "properties": {
+          "from_": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "From "
+          },
+          "to": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "To"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from_",
+          "to"
+        ],
+        "title": "FromTo"
+      },
+      "HTTPError": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "HTTPError"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IDsList": {
+        "properties": {
+          "quote_id": {
+            "type": "integer",
+            "title": "Quote Id"
+          },
+          "quote_number": {
+            "type": "string",
+            "title": "Quote Number"
+          },
+          "reference_id": {
+            "type": "string",
+            "title": "Reference Id"
+          },
+          "quote_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Quote Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "quote_id",
+          "quote_number"
+        ],
+        "title": "IDsList"
+      },
+      "ISO31661Alfa3": {
+        "type": "string",
+        "enum": [
+          "ABW",
+          "AFG",
+          "AGO",
+          "AIA",
+          "ALA",
+          "ALB",
+          "AND",
+          "ARE",
+          "ARG",
+          "ARM",
+          "ASM",
+          "ATA",
+          "ATF",
+          "ATG",
+          "AUS",
+          "AUT",
+          "AZE",
+          "BDI",
+          "BEL",
+          "BEN",
+          "BES",
+          "BFA",
+          "BGD",
+          "BGR",
+          "BHR",
+          "BHS",
+          "BIH",
+          "BLM",
+          "BLR",
+          "BLZ",
+          "BMU",
+          "BOL",
+          "BRA",
+          "BRB",
+          "BRN",
+          "BTN",
+          "BVT",
+          "BWA",
+          "CAF",
+          "CAN",
+          "CCK",
+          "CHE",
+          "CHL",
+          "CHN",
+          "CIV",
+          "CMR",
+          "COD",
+          "COG",
+          "COK",
+          "COL",
+          "COM",
+          "CPV",
+          "CRI",
+          "CUB",
+          "CUW",
+          "CXR",
+          "CYM",
+          "CYP",
+          "CZE",
+          "DEU",
+          "DJI",
+          "DMA",
+          "DNK",
+          "DOM",
+          "DZA",
+          "ECU",
+          "EGY",
+          "ERI",
+          "ESH",
+          "ESP",
+          "EST",
+          "ETH",
+          "FIN",
+          "FJI",
+          "FLK",
+          "FRA",
+          "FRO",
+          "FSM",
+          "GAB",
+          "GBR",
+          "GEO",
+          "GGY",
+          "GHA",
+          "GIB",
+          "GIN",
+          "GLP",
+          "GMB",
+          "GNB",
+          "GNQ",
+          "GRC",
+          "GRD",
+          "GRL",
+          "GTM",
+          "GUF",
+          "GUM",
+          "GUY",
+          "HKG",
+          "HMD",
+          "HND",
+          "HRV",
+          "HTI",
+          "HUN",
+          "IDN",
+          "IMN",
+          "IND",
+          "IOT",
+          "IRL",
+          "IRN",
+          "IRQ",
+          "ISL",
+          "ISR",
+          "ITA",
+          "JAM",
+          "JEY",
+          "JOR",
+          "JPN",
+          "KAZ",
+          "KEN",
+          "KGZ",
+          "KHM",
+          "KIR",
+          "KNA",
+          "KOR",
+          "KWT",
+          "LAO",
+          "LBN",
+          "LBR",
+          "LBY",
+          "LCA",
+          "LIE",
+          "LKA",
+          "LSO",
+          "LTU",
+          "LUX",
+          "LVA",
+          "MAC",
+          "MAF",
+          "MAR",
+          "MCO",
+          "MDA",
+          "MDG",
+          "MDV",
+          "MEX",
+          "MHL",
+          "MKD",
+          "MLI",
+          "MLT",
+          "MMR",
+          "MNE",
+          "MNG",
+          "MNP",
+          "MOZ",
+          "MRT",
+          "MSR",
+          "MTQ",
+          "MUS",
+          "MWI",
+          "MYS",
+          "MYT",
+          "NAM",
+          "NCL",
+          "NER",
+          "NFK",
+          "NGA",
+          "NIC",
+          "NIU",
+          "NLD",
+          "NOR",
+          "NPL",
+          "NRU",
+          "NZL",
+          "OMN",
+          "PAK",
+          "PAN",
+          "PCN",
+          "PER",
+          "PHL",
+          "PLW",
+          "PNG",
+          "POL",
+          "PRI",
+          "PRK",
+          "PRT",
+          "PRY",
+          "PSE",
+          "PYF",
+          "QAT",
+          "REU",
+          "ROU",
+          "RUS",
+          "RWA",
+          "SAU",
+          "SDN",
+          "SEN",
+          "SGP",
+          "SGS",
+          "SHN",
+          "SJM",
+          "SLB",
+          "SLE",
+          "SLV",
+          "SMR",
+          "SOM",
+          "SPM",
+          "SRB",
+          "SSD",
+          "STP",
+          "SUR",
+          "SVK",
+          "SVN",
+          "SWE",
+          "SWZ",
+          "SXM",
+          "SYC",
+          "SYR",
+          "TCA",
+          "TCD",
+          "TGO",
+          "THA",
+          "TJK",
+          "TKL",
+          "TKM",
+          "TLS",
+          "TON",
+          "TTO",
+          "TUN",
+          "TUR",
+          "TUV",
+          "TWN",
+          "TZA",
+          "UGA",
+          "UKR",
+          "UMI",
+          "URY",
+          "USA",
+          "UZB",
+          "VAT",
+          "VCT",
+          "VEN",
+          "VGB",
+          "VIR",
+          "VNM",
+          "VUT",
+          "WLF",
+          "WSM",
+          "YEM",
+          "ZAF",
+          "ZMB",
+          "ZWE"
+        ],
+        "title": "ISO31661Alfa3",
+        "description": "Format ISO 3166-1 Alfa 3\nCode list: https://datahub.io/core/country-codes"
+      },
+      "Input": {
+        "properties": {
+          "require_linehaul": {
+            "type": "boolean",
+            "title": "Require Linehaul",
+            "description": "When the value of \"True\" is set, the validation process will check whether the calculated output contains a LineHaul rate. If the LineHaul rate is not present, the validation will fail.",
+            "default": false
+          },
+          "miles": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Miles",
+            "description": "Miles from origin to destination"
+          },
+          "miles_with_stops": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Miles With Stops",
+            "description": "Miles from origin, to stop 1, from, to stop 2, ..., to destination"
+          },
+          "rate_board_1": {
+            "type": "number",
+            "title": "Rate Board 1",
+            "description": "DAT"
+          },
+          "rate_board_2": {
+            "type": "number",
+            "title": "Rate Board 2",
+            "description": "TRUCKSTOP"
+          },
+          "rate_board_3": {
+            "type": "number",
+            "title": "Rate Board 3",
+            "description": "GREENSCREENS"
+          },
+          "rate_board_4": {
+            "type": "number",
+            "title": "Rate Board 4",
+            "description": "C4"
+          },
+          "rate_board_5": {
+            "type": "number",
+            "title": "Rate Board 5",
+            "description": "MARKET INSIGHT"
+          },
+          "rate_board_6": {
+            "type": "number",
+            "title": "Rate Board 6",
+            "description": "SLLR"
+          },
+          "rate_board_7": {
+            "type": "number",
+            "title": "Rate Board 7",
+            "description": "REVENOVA"
+          },
+          "rate_board_8": {
+            "type": "number",
+            "title": "Rate Board 8",
+            "description": "LOADDEX"
+          },
+          "rate_board_9": {
+            "type": "number",
+            "title": "Rate Board 9",
+            "description": "AS/400"
+          },
+          "rate_board_10": {
+            "type": "number",
+            "title": "Rate Board 10",
+            "description": "FREIGHTWAVES"
+          },
+          "rate_board_11": {
+            "type": "number",
+            "title": "Rate Board 11",
+            "description": "123LOADBOARD"
+          },
+          "rate_board_12": {
+            "type": "number",
+            "title": "Rate Board 12",
+            "description": "MCLEOD"
+          },
+          "rate_board_13": {
+            "type": "number",
+            "title": "Rate Board 13",
+            "description": "PARADE"
+          },
+          "rate_board_14": {
+            "type": "number",
+            "title": "Rate Board 14",
+            "description": "ARCBEST"
+          },
+          "rate_board_15": {
+            "type": "number",
+            "title": "Rate Board 15",
+            "description": "DAT RATE CAST"
+          },
+          "rate_board_16": {
+            "type": "number",
+            "title": "Rate Board 16",
+            "description": "ARCHER"
+          },
+          "rate_board_17": {
+            "type": "number",
+            "title": "Rate Board 17",
+            "description": "DIRECT TRANS"
+          },
+          "rate_board_18": {
+            "type": "number",
+            "title": "Rate Board 18",
+            "description": "FIXED PRICE"
+          },
+          "rate_board_19": {
+            "type": "number",
+            "title": "Rate Board 19",
+            "description": "TRINITY"
+          },
+          "rate_board_20": {
+            "type": "number",
+            "title": "Rate Board 20",
+            "description": "DIRECT CONNECT LOGISTIX"
+          },
+          "rate_board_10_url": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Rate Board 10 Url",
+            "description": "Hyperlink to the FWSonar engine dashboard"
+          },
+          "response_id": {
+            "type": "integer",
+            "title": "Response Id"
+          },
+          "base_line_rate": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Base Line Rate"
+          },
+          "greenscreens_confidence_score": {
+            "type": "number",
+            "title": "Greenscreens Confidence Score"
+          },
+          "truckstop_score": {
+            "type": "number",
+            "title": "Truckstop Score"
+          },
+          "pickup_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Pickup Date",
+            "description": "ISO 8601 format",
+            "example": "2008-09-15"
+          },
+          "delivery_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Delivery Date",
+            "description": "ISO 8601 format",
+            "example": "2008-09-15"
+          },
+          "pickup_hour": {
+            "type": "string",
+            "format": "time",
+            "title": "Pickup Hour",
+            "description": "ISO 8601 format",
+            "example": "14:23:55.003"
+          },
+          "delivery_hour": {
+            "type": "string",
+            "format": "time",
+            "title": "Delivery Hour",
+            "description": "ISO 8601 format",
+            "example": "14:23:55.003"
+          },
+          "weight": {
+            "type": "integer",
+            "title": "Weight",
+            "description": "Unit of weight (lb)",
+            "default": 0
+          },
+          "pieces_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Pieces Count",
+            "default": 0
+          },
+          "load_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Load Id"
+          },
+          "customer": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Customer"
+          },
+          "origin_location": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin Location"
+          },
+          "delivery_location": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Delivery Location"
+          },
+          "origin_country": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ISO31661Alfa3"
+              }
+            ],
+            "example": "USA"
+          },
+          "origin_city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin City"
+          },
+          "origin_state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z]{2,3}$",
+            "title": "Origin State"
+          },
+          "delivery_country": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ISO31661Alfa3"
+              }
+            ],
+            "example": "USA"
+          },
+          "delivery_city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Delivery City"
+          },
+          "delivery_state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z]{2,3}$",
+            "title": "Delivery State"
+          },
+          "accessorials": {
+            "items": {
+              "$ref": "#/components/schemas/Accessorial"
+            },
+            "type": "array"
+          },
+          "extra_charges_and_restrictions": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Item"
+                },
+                {
+                  "$ref": "#/components/schemas/ItemV7"
+                },
+                {
+                  "$ref": "#/components/schemas/ItemV8"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Extra Charges And Restrictions"
+          },
+          "commodity": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Commodity"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ],
+            "title": "Temperature"
+          },
+          "lane_score": {
+            "type": "integer",
+            "title": "Lane Score"
+          },
+          "trailer_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Trailer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Trailer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Trailer Type"
+          },
+          "fuel_price_per_mile": {
+            "type": "number",
+            "title": "Fuel Price Per Mile"
+          },
+          "origin_zipcode": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin Zipcode"
+          },
+          "delivery_zipcode": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Delivery Zipcode"
+          },
+          "stop_cities": {
+            "items": {
+              "$ref": "#/components/schemas/StopCityV2"
+            },
+            "type": "array",
+            "title": "Stop Cities"
+          },
+          "stops_quantity": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Stops Quantity",
+            "default": 0
+          },
+          "multi_stops_apis": {
+            "type": "boolean",
+            "title": "Multi Stops Apis",
+            "default": true
+          },
+          "truck_to_load_ratio_origin": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Truck To Load Ratio Origin",
+            "default": 0
+          },
+          "truck_to_load_ratio_destination": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Truck To Load Ratio Destination",
+            "default": 0
+          },
+          "create_report": {
+            "type": "boolean",
+            "title": "Create Report",
+            "default": false
+          },
+          "api": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/APIEnum"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Api",
+            "default": "QUOTING"
+          },
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Username"
+          },
+          "extra_report_fields": {
+            "$ref": "#/components/schemas/ExtraReportFields"
+          },
+          "extra_data": {
+            "title": "Extra Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "miles",
+          "base_line_rate",
+          "origin_city",
+          "origin_state",
+          "delivery_city",
+          "delivery_state",
+          "trailer_type"
+        ],
+        "title": "Input"
+      },
+      "InputBaseLineRate": {
+        "properties": {
+          "api": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/APIEnum"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Api",
+            "default": "QUOTING"
+          },
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "customer": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Customer"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Username"
+          },
+          "extra_report_fields": {
+            "$ref": "#/components/schemas/ExtraReportFields"
+          },
+          "load_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Load Id"
+          },
+          "rate_board_1": {
+            "type": "number",
+            "title": "Rate Board 1",
+            "description": "DAT"
+          },
+          "rate_board_2": {
+            "type": "number",
+            "title": "Rate Board 2",
+            "description": "TRUCKSTOP"
+          },
+          "rate_board_3": {
+            "type": "number",
+            "title": "Rate Board 3",
+            "description": "GREENSCREENS"
+          },
+          "rate_board_4": {
+            "type": "number",
+            "title": "Rate Board 4",
+            "description": "C4"
+          },
+          "rate_board_5": {
+            "type": "number",
+            "title": "Rate Board 5",
+            "description": "TESTRATEENGINE"
+          },
+          "rate_board_8": {
+            "type": "number",
+            "title": "Rate Board 8",
+            "description": "LOADDEX"
+          },
+          "rate_board_10": {
+            "type": "number",
+            "title": "Rate Board 10",
+            "description": "FREIGHTWAVES"
+          },
+          "rate_board_11": {
+            "type": "number",
+            "title": "Rate Board 11",
+            "description": "123LOADBOARD"
+          },
+          "rate_board_12": {
+            "type": "number",
+            "title": "Rate Board 12",
+            "description": "MCLEOD"
+          },
+          "rate_board_13": {
+            "type": "number",
+            "title": "Rate Board 13",
+            "description": "PARADE"
+          },
+          "rate_board_14": {
+            "type": "number",
+            "title": "Rate Board 14",
+            "description": "ARCBEST"
+          },
+          "rate_board_15": {
+            "type": "number",
+            "title": "Rate Board 15",
+            "description": "DAT RATE CAST"
+          },
+          "rate_board_16": {
+            "type": "number",
+            "title": "Rate Board 16",
+            "description": "ARCHER"
+          },
+          "rate_board_17": {
+            "type": "number",
+            "title": "Rate Board 17",
+            "description": "DIRECT TRANS"
+          },
+          "rate_board_18": {
+            "type": "number",
+            "title": "Rate Board 18",
+            "description": "FIXED PRICE"
+          },
+          "rate_board_19": {
+            "type": "number",
+            "title": "Rate Board 19",
+            "description": "TRINITY"
+          },
+          "rate_board_20": {
+            "type": "number",
+            "title": "Rate Board 20",
+            "description": "DIRECT CONNECT LOGISTIX"
+          },
+          "trailer_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Trailer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Trailer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Trailer Type"
+          },
+          "origin_city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin City"
+          },
+          "origin_state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z]{2,3}$",
+            "title": "Origin State"
+          },
+          "delivery_city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Delivery City"
+          },
+          "delivery_state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z]{2,3}$",
+            "title": "Delivery State"
+          },
+          "miles": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Miles",
+            "description": "Miles from origin to destination"
+          },
+          "weight": {
+            "type": "integer",
+            "title": "Weight",
+            "description": "Unit of weight (lb)",
+            "default": 0
+          },
+          "fuel_price_per_mile": {
+            "type": "number",
+            "title": "Fuel Price Per Mile"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trailer_type"
+        ],
+        "title": "InputBaseLineRate"
+      },
+      "InputEmail": {
+        "properties": {
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "load_id": {
+            "type": "string",
+            "title": "Load Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "events"
+        ],
+        "title": "InputEmail"
+      },
+      "InputEquipmentType": {
+        "properties": {
+          "trailer_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Trailer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Trailer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Trailer Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trailer_type"
+        ],
+        "title": "InputEquipmentType"
+      },
+      "InputFixedPriceLanes": {
+        "properties": {
+          "api": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/APIEnum"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Api",
+            "default": "QUOTING"
+          },
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "customer": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Customer"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Username"
+          },
+          "extra_report_fields": {
+            "$ref": "#/components/schemas/ExtraReportFields"
+          },
+          "trailer_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Trailer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Trailer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Trailer Type"
+          },
+          "origin_city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin City"
+          },
+          "origin_state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z]{2,3}$",
+            "title": "Origin State"
+          },
+          "delivery_city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Delivery City"
+          },
+          "delivery_state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z]{2,3}$",
+            "title": "Delivery State"
+          },
+          "stop_cities": {
+            "items": {
+              "$ref": "#/components/schemas/StopCityV2"
+            },
+            "type": "array",
+            "title": "Stop Cities"
+          },
+          "stops_quantity": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Stops Quantity",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "trailer_type",
+          "origin_city",
+          "origin_state",
+          "delivery_city",
+          "delivery_state"
+        ],
+        "title": "InputFixedPriceLanes"
+      },
+      "InputFlags": {
+        "properties": {
+          "api": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/APIEnum"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Api",
+            "default": "QUOTING"
+          },
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Username"
+          },
+          "extra_report_fields": {
+            "$ref": "#/components/schemas/ExtraReportFields"
+          },
+          "trailer_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Trailer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Trailer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Trailer Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trailer_type"
+        ],
+        "title": "InputFlags"
+      },
+      "InputRestricted": {
+        "properties": {
+          "api": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/APIEnum"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Api",
+            "default": "QUOTING"
+          },
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "load_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Load Id"
+          },
+          "customer": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Customer"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Username"
+          },
+          "extra_report_fields": {
+            "$ref": "#/components/schemas/ExtraReportFields"
+          },
+          "trailer_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Trailer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Trailer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Trailer Type"
+          },
+          "miles": {
+            "type": "number",
+            "title": "Miles",
+            "default": 0
+          },
+          "origin_country": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ISO31661Alfa3"
+              }
+            ],
+            "example": "USA"
+          },
+          "origin_city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin City"
+          },
+          "origin_state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z]{2,3}$",
+            "title": "Origin State"
+          },
+          "origin_zipcode": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin Zipcode"
+          },
+          "origin_location": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin Location"
+          },
+          "pickup_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Pickup Date",
+            "description": "ISO 8601 format",
+            "example": "2008-09-15"
+          },
+          "pickup_hour": {
+            "type": "string",
+            "format": "time",
+            "title": "Pickup Hour",
+            "description": "ISO 8601 format",
+            "example": "14:23:55.003"
+          },
+          "delivery_country": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ISO31661Alfa3"
+              }
+            ],
+            "example": "USA"
+          },
+          "delivery_city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Delivery City"
+          },
+          "delivery_state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z]{2,3}$",
+            "title": "Delivery State"
+          },
+          "delivery_zipcode": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Delivery Zipcode"
+          },
+          "delivery_location": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Delivery Location"
+          },
+          "delivery_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Delivery Date",
+            "description": "ISO 8601 format",
+            "example": "2008-09-15"
+          },
+          "delivery_hour": {
+            "type": "string",
+            "format": "time",
+            "title": "Delivery Hour",
+            "description": "ISO 8601 format",
+            "example": "14:23:55.003"
+          },
+          "weight": {
+            "type": "integer",
+            "title": "Weight",
+            "description": "Unit of weight (lb)",
+            "default": 0
+          },
+          "extra_charges_and_restrictions": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Item"
+                },
+                {
+                  "$ref": "#/components/schemas/ItemV7"
+                },
+                {
+                  "$ref": "#/components/schemas/ItemV8"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Extra Charges And Restrictions"
+          },
+          "stop_cities": {
+            "items": {
+              "$ref": "#/components/schemas/StopCityV2"
+            },
+            "type": "array",
+            "title": "Stop Cities"
+          },
+          "stops_quantity": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Stops Quantity",
+            "default": 0
+          },
+          "lane_score": {
+            "type": "integer",
+            "title": "Lane Score"
+          },
+          "greenscreens_confidence_score": {
+            "type": "number",
+            "title": "Greenscreens Confidence Score"
+          },
+          "truckstop_score": {
+            "type": "number",
+            "title": "Truckstop Score"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ],
+            "title": "Temperature"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trailer_type",
+          "origin_city",
+          "origin_state",
+          "delivery_city",
+          "delivery_state"
+        ],
+        "title": "InputRestricted"
+      },
+      "Item": {
+        "type": "string",
+        "enum": [
+          "HAZMAT"
+        ],
+        "title": "Item",
+        "description": "An enumeration."
+      },
+      "ItemV7": {
+        "type": "string",
+        "enum": [
+          "HAZMAT",
+          "TANKER_ENDORSEMENT",
+          "APPOINTMENT_REQUIRED",
+          "PALLET_EXCHANGE",
+          "MODE",
+          "SPECIAL_HANDLING",
+          "INSURANCE",
+          "OVER_DIMENSIONED",
+          "TARPS",
+          "RAMPS",
+          "LOAD",
+          "UNLOAD",
+          "DROP_TRAILER"
+        ],
+        "title": "ItemV7",
+        "description": "An enumeration."
+      },
+      "ItemV8": {
+        "type": "string",
+        "enum": [
+          "HAZMAT",
+          "TANKER_ENDORSEMENT",
+          "APPOINTMENT_REQUIRED",
+          "PALLET_EXCHANGE",
+          "SPECIAL_HANDLING",
+          "INSURANCE",
+          "OVER_DIMENSIONED",
+          "TARPS",
+          "RAMPS",
+          "LOAD",
+          "UNLOAD",
+          "DROP_TRAILER",
+          "OTHER"
+        ],
+        "title": "ItemV8",
+        "description": "An enumeration."
+      },
+      "LoadBoardRateItem": {
+        "properties": {
+          "rate": {
+            "type": "number",
+            "title": "Rate"
+          },
+          "rateloadboard": {
+            "$ref": "#/components/schemas/LoadBoardRateNameEnum"
+          },
+          "response_id": {
+            "type": "integer",
+            "title": "Response Id"
+          }
+        },
+        "type": "object",
+        "title": "LoadBoardRateItem"
+      },
+      "LoadBoardRateList": {
+        "properties": {
+          "rates": {
+            "items": {
+              "$ref": "#/components/schemas/LoadBoardRateItem"
+            },
+            "type": "array",
+            "title": "Rates"
+          }
+        },
+        "type": "object",
+        "title": "LoadBoardRateList"
+      },
+      "LoadBoardRateNameEnum": {
+        "type": "string",
+        "enum": [
+          "01_DAT",
+          "02_TRUCKSTOP",
+          "03_GREENSCREENS",
+          "04_CARGOCHIEF",
+          "05_MARKETINSIGHT",
+          "06_SLLR",
+          "07_REVENOVA",
+          "08_LOADDEX",
+          "09_AS/400",
+          "10_FREIGHTWAVES",
+          "11_123LOADBOARD",
+          "12_MCLEOD",
+          "13_PARADE",
+          "14_ARCBEST",
+          "15_DATRATECAST",
+          "16_ARCHER",
+          "17_DIRECTTRANS",
+          "18_FIXEDPRICE",
+          "19_TRINITY",
+          "20_DCL"
+        ],
+        "title": "LoadBoardRateNameEnum",
+        "description": "An enumeration."
+      },
+      "OriginDeliveryRate": {
+        "properties": {
+          "origin": {
+            "type": "number",
+            "title": "Origin",
+            "default": 0
+          },
+          "delivery": {
+            "type": "number",
+            "title": "Delivery",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "OriginDeliveryRate"
+      },
+      "Output": {
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id",
+            "description": "Unique transaction identifier, transversal to all the APIs from which the request comes"
+          },
+          "fail": {
+            "type": "boolean",
+            "title": "Fail",
+            "description": "Return True if any NO_GO events were found",
+            "default": false
+          },
+          "original_miles": {
+            "type": "number",
+            "title": "Original Miles"
+          },
+          "original_miles_with_stops": {
+            "type": "number",
+            "title": "Original Miles With Stops"
+          },
+          "original_base_line_rate": {
+            "type": "number",
+            "title": "Original Base Line Rate"
+          },
+          "original_base_line_with_stops_rate": {
+            "type": "number",
+            "title": "Original Base Line With Stops Rate"
+          },
+          "rate_board_1": {
+            "type": "number",
+            "title": "Rate Board 1",
+            "description": "DAT"
+          },
+          "rate_board_2": {
+            "type": "number",
+            "title": "Rate Board 2",
+            "description": "TRUCKSTOP"
+          },
+          "rate_board_3": {
+            "type": "number",
+            "title": "Rate Board 3",
+            "description": "GREENSCREENS"
+          },
+          "rate_board_4": {
+            "type": "number",
+            "title": "Rate Board 4",
+            "description": "C4"
+          },
+          "rate_board_5": {
+            "type": "number",
+            "title": "Rate Board 5",
+            "description": "MARKET INSIGHT"
+          },
+          "rate_board_6": {
+            "type": "number",
+            "title": "Rate Board 6",
+            "description": "SLLR"
+          },
+          "rate_board_7": {
+            "type": "number",
+            "title": "Rate Board 7",
+            "description": "REVENOVA"
+          },
+          "rate_board_8": {
+            "type": "number",
+            "title": "Rate Board 8",
+            "description": "LOADDEX"
+          },
+          "rate_board_9": {
+            "type": "number",
+            "title": "Rate Board 9",
+            "description": "AS/400"
+          },
+          "rate_board_10": {
+            "type": "number",
+            "title": "Rate Board 10",
+            "description": "FREIGHTWAVES"
+          },
+          "rate_board_11": {
+            "type": "number",
+            "title": "Rate Board 11",
+            "description": "123LOADBOARD"
+          },
+          "rate_board_12": {
+            "type": "number",
+            "title": "Rate Board 12",
+            "description": "MCLEOD"
+          },
+          "rate_board_13": {
+            "type": "number",
+            "title": "Rate Board 13",
+            "description": "PARADE"
+          },
+          "rate_board_14": {
+            "type": "number",
+            "title": "Rate Board 14",
+            "description": "ARCBEST"
+          },
+          "rate_board_15": {
+            "type": "number",
+            "title": "Rate Board 15",
+            "description": "DAT RATE CAST"
+          },
+          "rate_board_16": {
+            "type": "number",
+            "title": "Rate Board 16",
+            "description": "ARCHER"
+          },
+          "rate_board_17": {
+            "type": "number",
+            "title": "Rate Board 17",
+            "description": "DIRECT TRANS"
+          },
+          "rate_board_18": {
+            "type": "number",
+            "title": "Rate Board 18",
+            "description": "FIXED PRICE"
+          },
+          "rate_board_19": {
+            "type": "number",
+            "title": "Rate Board 19",
+            "description": "TRINITY"
+          },
+          "rate_board_20": {
+            "type": "number",
+            "title": "Rate Board 20",
+            "description": "DIRECT CONNECT LOGISTIX"
+          },
+          "fixed_price_lane": {
+            "type": "number",
+            "title": "Fixed Price Lane",
+            "default": 0
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events",
+            "default": []
+          },
+          "exception_report_oid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Exception Report Oid"
+          },
+          "report_oid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Report Oid"
+          },
+          "distance_margin": {
+            "type": "number",
+            "title": "Distance Margin",
+            "default": 0
+          },
+          "lead_time": {
+            "type": "number",
+            "title": "Lead Time",
+            "default": 0
+          },
+          "weekend": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "$ref": "#/components/schemas/OriginDeliveryRate"
+              }
+            ],
+            "title": "Weekend",
+            "default": 0
+          },
+          "holiday": {
+            "type": "number",
+            "title": "Holiday",
+            "default": 0
+          },
+          "after_hours": {
+            "type": "number",
+            "title": "After Hours",
+            "default": 0
+          },
+          "season": {
+            "type": "number",
+            "title": "Season",
+            "default": 0
+          },
+          "transit_time": {
+            "type": "number",
+            "title": "Transit Time",
+            "default": 0
+          },
+          "transit_time_delivery": {
+            "type": "number",
+            "title": "Transit Time Delivery",
+            "default": 0
+          },
+          "weight_tier": {
+            "type": "number",
+            "title": "Weight Tier",
+            "default": 0
+          },
+          "delivery_time": {
+            "type": "number",
+            "title": "Delivery Time",
+            "default": 0
+          },
+          "pickup_time": {
+            "type": "number",
+            "title": "Pickup Time",
+            "default": 0
+          },
+          "greenscreens_confidence_score": {
+            "type": "number",
+            "title": "Greenscreens Confidence Score",
+            "default": 0
+          },
+          "truckstop_score": {
+            "type": "number",
+            "title": "Truckstop Score",
+            "default": 0
+          },
+          "origin_conditioned": {
+            "type": "number",
+            "title": "Origin Conditioned",
+            "default": 0
+          },
+          "origin_state_conditioned": {
+            "type": "number",
+            "title": "Origin State Conditioned",
+            "default": 0
+          },
+          "origin_zip_conditioned": {
+            "type": "number",
+            "title": "Origin Zip Conditioned",
+            "default": 0
+          },
+          "destination_conditioned": {
+            "type": "number",
+            "title": "Destination Conditioned",
+            "default": 0
+          },
+          "destination_state_conditioned": {
+            "type": "number",
+            "title": "Destination State Conditioned",
+            "default": 0
+          },
+          "destination_zip_conditioned": {
+            "type": "number",
+            "title": "Destination Zip Conditioned",
+            "default": 0
+          },
+          "lane_conditioned": {
+            "type": "number",
+            "title": "Lane Conditioned",
+            "default": 0
+          },
+          "quote_amount_threshold": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "$ref": "#/components/schemas/OriginDeliveryRate"
+              }
+            ],
+            "title": "Quote Amount Threshold",
+            "default": 0
+          },
+          "quote_amount_threshold_zip": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "quote_amount_threshold_city": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "quote_amount_threshold_state": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "conditioned_locations_pickup": {
+            "type": "number",
+            "title": "Conditioned Locations Pickup",
+            "default": 0
+          },
+          "conditioned_locations_delivery": {
+            "type": "number",
+            "title": "Conditioned Locations Delivery",
+            "default": 0
+          },
+          "conditioned_lanes_by_state": {
+            "type": "number",
+            "title": "Conditioned Lanes By State",
+            "default": 0
+          },
+          "accessorials": {
+            "type": "number",
+            "title": "Accessorials",
+            "default": 0
+          },
+          "extra_charges_and_restrictions": {
+            "type": "number",
+            "title": "Extra Charges And Restrictions",
+            "default": 0
+          },
+          "lane_scores": {
+            "type": "number",
+            "title": "Lane Scores",
+            "default": 0
+          },
+          "same_day_cutoff": {
+            "type": "number",
+            "title": "Same Day Cutoff",
+            "default": 0
+          },
+          "temperature": {
+            "type": "number",
+            "title": "Temperature",
+            "default": 0
+          },
+          "stops": {
+            "type": "number",
+            "title": "Stops",
+            "default": 0
+          },
+          "stops_quantity": {
+            "type": "number",
+            "title": "Stops Quantity",
+            "default": 0
+          },
+          "truck_to_load_ratio_origin_from_to": {
+            "$ref": "#/components/schemas/FromTo"
+          },
+          "truck_to_load_ratio_destination_from_to": {
+            "$ref": "#/components/schemas/FromTo"
+          },
+          "truck_to_load_ratio_origin": {
+            "type": "number",
+            "title": "Truck To Load Ratio Origin",
+            "default": 0
+          },
+          "truck_to_load_ratio_destination": {
+            "type": "number",
+            "title": "Truck To Load Ratio Destination",
+            "default": 0
+          },
+          "cross_border": {
+            "type": "number",
+            "title": "Cross Border",
+            "default": 0
+          },
+          "cross_border_origin_country": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 2,
+            "title": "Cross Border Origin Country",
+            "description": "country detected using 'origin_country' or 'origin_state'"
+          },
+          "cross_border_delivery_country": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 2,
+            "title": "Cross Border Delivery Country",
+            "description": "country detected using 'delivery_country' or 'delivery_state'"
+          },
+          "international_shipment": {
+            "type": "number",
+            "title": "International Shipment",
+            "default": 0
+          },
+          "international_shipment_origin_country": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 2,
+            "title": "International Shipment Origin Country",
+            "description": "country detected using 'origin_country' or 'origin_state'"
+          },
+          "international_shipment_delivery_country": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 2,
+            "title": "International Shipment Delivery Country",
+            "description": "country detected using 'delivery_country' or 'delivery_state'"
+          },
+          "total_rate": {
+            "type": "number",
+            "title": "Total Rate",
+            "description": "Calculated rate without subtracting the fuel(fsc)",
+            "default": 0
+          },
+          "fsc": {
+            "type": "number",
+            "title": "Fsc",
+            "default": 0
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Equal to \"total_rate - fsc\"",
+            "default": 0
+          },
+          "margin_final": {
+            "type": "number",
+            "title": "Margin Final",
+            "default": 0
+          },
+          "desired_margin": {
+            "type": "number",
+            "title": "Desired Margin",
+            "description": "Aka profit",
+            "default": 0
+          },
+          "expiration": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expiration"
+          },
+          "bid_post": {
+            "type": "boolean",
+            "title": "Bid Post",
+            "default": false
+          },
+          "re_bid_minimum_total": {
+            "type": "number",
+            "title": "Re Bid Minimum Total",
+            "description": "When Re-bid minimum is enabled in TABi Connect, this will be filled with the total of the re-bid, as long as it does not contain any NO_GO event",
+            "default": 0
+          },
+          "re_bid_minimum_output": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OutputBase"
+              }
+            ],
+            "title": "Re Bid Minimum Output",
+            "description": "When Re-bid minimum is enabled in TABi Connect, this will be filled with their quote output, including NO_GO events"
+          }
+        },
+        "type": "object",
+        "title": "Output"
+      },
+      "OutputBase": {
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id",
+            "description": "Unique transaction identifier, transversal to all the APIs from which the request comes"
+          },
+          "fail": {
+            "type": "boolean",
+            "title": "Fail",
+            "description": "Return True if any NO_GO events were found",
+            "default": false
+          },
+          "original_miles": {
+            "type": "number",
+            "title": "Original Miles"
+          },
+          "original_miles_with_stops": {
+            "type": "number",
+            "title": "Original Miles With Stops"
+          },
+          "original_base_line_rate": {
+            "type": "number",
+            "title": "Original Base Line Rate"
+          },
+          "original_base_line_with_stops_rate": {
+            "type": "number",
+            "title": "Original Base Line With Stops Rate"
+          },
+          "rate_board_1": {
+            "type": "number",
+            "title": "Rate Board 1",
+            "description": "DAT"
+          },
+          "rate_board_2": {
+            "type": "number",
+            "title": "Rate Board 2",
+            "description": "TRUCKSTOP"
+          },
+          "rate_board_3": {
+            "type": "number",
+            "title": "Rate Board 3",
+            "description": "GREENSCREENS"
+          },
+          "rate_board_4": {
+            "type": "number",
+            "title": "Rate Board 4",
+            "description": "C4"
+          },
+          "rate_board_5": {
+            "type": "number",
+            "title": "Rate Board 5",
+            "description": "MARKET INSIGHT"
+          },
+          "rate_board_6": {
+            "type": "number",
+            "title": "Rate Board 6",
+            "description": "SLLR"
+          },
+          "rate_board_7": {
+            "type": "number",
+            "title": "Rate Board 7",
+            "description": "REVENOVA"
+          },
+          "rate_board_8": {
+            "type": "number",
+            "title": "Rate Board 8",
+            "description": "LOADDEX"
+          },
+          "rate_board_9": {
+            "type": "number",
+            "title": "Rate Board 9",
+            "description": "AS/400"
+          },
+          "rate_board_10": {
+            "type": "number",
+            "title": "Rate Board 10",
+            "description": "FREIGHTWAVES"
+          },
+          "rate_board_11": {
+            "type": "number",
+            "title": "Rate Board 11",
+            "description": "123LOADBOARD"
+          },
+          "rate_board_12": {
+            "type": "number",
+            "title": "Rate Board 12",
+            "description": "MCLEOD"
+          },
+          "rate_board_13": {
+            "type": "number",
+            "title": "Rate Board 13",
+            "description": "PARADE"
+          },
+          "rate_board_14": {
+            "type": "number",
+            "title": "Rate Board 14",
+            "description": "ARCBEST"
+          },
+          "rate_board_15": {
+            "type": "number",
+            "title": "Rate Board 15",
+            "description": "DAT RATE CAST"
+          },
+          "rate_board_16": {
+            "type": "number",
+            "title": "Rate Board 16",
+            "description": "ARCHER"
+          },
+          "rate_board_17": {
+            "type": "number",
+            "title": "Rate Board 17",
+            "description": "DIRECT TRANS"
+          },
+          "rate_board_18": {
+            "type": "number",
+            "title": "Rate Board 18",
+            "description": "FIXED PRICE"
+          },
+          "rate_board_19": {
+            "type": "number",
+            "title": "Rate Board 19",
+            "description": "TRINITY"
+          },
+          "rate_board_20": {
+            "type": "number",
+            "title": "Rate Board 20",
+            "description": "DIRECT CONNECT LOGISTIX"
+          },
+          "fixed_price_lane": {
+            "type": "number",
+            "title": "Fixed Price Lane",
+            "default": 0
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events",
+            "default": []
+          },
+          "exception_report_oid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Exception Report Oid"
+          },
+          "report_oid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Report Oid"
+          },
+          "distance_margin": {
+            "type": "number",
+            "title": "Distance Margin",
+            "default": 0
+          },
+          "lead_time": {
+            "type": "number",
+            "title": "Lead Time",
+            "default": 0
+          },
+          "weekend": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "$ref": "#/components/schemas/OriginDeliveryRate"
+              }
+            ],
+            "title": "Weekend",
+            "default": 0
+          },
+          "holiday": {
+            "type": "number",
+            "title": "Holiday",
+            "default": 0
+          },
+          "after_hours": {
+            "type": "number",
+            "title": "After Hours",
+            "default": 0
+          },
+          "season": {
+            "type": "number",
+            "title": "Season",
+            "default": 0
+          },
+          "transit_time": {
+            "type": "number",
+            "title": "Transit Time",
+            "default": 0
+          },
+          "transit_time_delivery": {
+            "type": "number",
+            "title": "Transit Time Delivery",
+            "default": 0
+          },
+          "weight_tier": {
+            "type": "number",
+            "title": "Weight Tier",
+            "default": 0
+          },
+          "delivery_time": {
+            "type": "number",
+            "title": "Delivery Time",
+            "default": 0
+          },
+          "pickup_time": {
+            "type": "number",
+            "title": "Pickup Time",
+            "default": 0
+          },
+          "greenscreens_confidence_score": {
+            "type": "number",
+            "title": "Greenscreens Confidence Score",
+            "default": 0
+          },
+          "truckstop_score": {
+            "type": "number",
+            "title": "Truckstop Score",
+            "default": 0
+          },
+          "origin_conditioned": {
+            "type": "number",
+            "title": "Origin Conditioned",
+            "default": 0
+          },
+          "origin_state_conditioned": {
+            "type": "number",
+            "title": "Origin State Conditioned",
+            "default": 0
+          },
+          "origin_zip_conditioned": {
+            "type": "number",
+            "title": "Origin Zip Conditioned",
+            "default": 0
+          },
+          "destination_conditioned": {
+            "type": "number",
+            "title": "Destination Conditioned",
+            "default": 0
+          },
+          "destination_state_conditioned": {
+            "type": "number",
+            "title": "Destination State Conditioned",
+            "default": 0
+          },
+          "destination_zip_conditioned": {
+            "type": "number",
+            "title": "Destination Zip Conditioned",
+            "default": 0
+          },
+          "lane_conditioned": {
+            "type": "number",
+            "title": "Lane Conditioned",
+            "default": 0
+          },
+          "quote_amount_threshold": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "$ref": "#/components/schemas/OriginDeliveryRate"
+              }
+            ],
+            "title": "Quote Amount Threshold",
+            "default": 0
+          },
+          "quote_amount_threshold_zip": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "quote_amount_threshold_city": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "quote_amount_threshold_state": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "conditioned_locations_pickup": {
+            "type": "number",
+            "title": "Conditioned Locations Pickup",
+            "default": 0
+          },
+          "conditioned_locations_delivery": {
+            "type": "number",
+            "title": "Conditioned Locations Delivery",
+            "default": 0
+          },
+          "conditioned_lanes_by_state": {
+            "type": "number",
+            "title": "Conditioned Lanes By State",
+            "default": 0
+          },
+          "accessorials": {
+            "type": "number",
+            "title": "Accessorials",
+            "default": 0
+          },
+          "extra_charges_and_restrictions": {
+            "type": "number",
+            "title": "Extra Charges And Restrictions",
+            "default": 0
+          },
+          "lane_scores": {
+            "type": "number",
+            "title": "Lane Scores",
+            "default": 0
+          },
+          "same_day_cutoff": {
+            "type": "number",
+            "title": "Same Day Cutoff",
+            "default": 0
+          },
+          "temperature": {
+            "type": "number",
+            "title": "Temperature",
+            "default": 0
+          },
+          "stops": {
+            "type": "number",
+            "title": "Stops",
+            "default": 0
+          },
+          "stops_quantity": {
+            "type": "number",
+            "title": "Stops Quantity",
+            "default": 0
+          },
+          "truck_to_load_ratio_origin_from_to": {
+            "$ref": "#/components/schemas/FromTo"
+          },
+          "truck_to_load_ratio_destination_from_to": {
+            "$ref": "#/components/schemas/FromTo"
+          },
+          "truck_to_load_ratio_origin": {
+            "type": "number",
+            "title": "Truck To Load Ratio Origin",
+            "default": 0
+          },
+          "truck_to_load_ratio_destination": {
+            "type": "number",
+            "title": "Truck To Load Ratio Destination",
+            "default": 0
+          },
+          "cross_border": {
+            "type": "number",
+            "title": "Cross Border",
+            "default": 0
+          },
+          "cross_border_origin_country": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 2,
+            "title": "Cross Border Origin Country",
+            "description": "country detected using 'origin_country' or 'origin_state'"
+          },
+          "cross_border_delivery_country": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 2,
+            "title": "Cross Border Delivery Country",
+            "description": "country detected using 'delivery_country' or 'delivery_state'"
+          },
+          "international_shipment": {
+            "type": "number",
+            "title": "International Shipment",
+            "default": 0
+          },
+          "international_shipment_origin_country": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 2,
+            "title": "International Shipment Origin Country",
+            "description": "country detected using 'origin_country' or 'origin_state'"
+          },
+          "international_shipment_delivery_country": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 2,
+            "title": "International Shipment Delivery Country",
+            "description": "country detected using 'delivery_country' or 'delivery_state'"
+          },
+          "total_rate": {
+            "type": "number",
+            "title": "Total Rate",
+            "description": "Calculated rate without subtracting the fuel(fsc)",
+            "default": 0
+          },
+          "fsc": {
+            "type": "number",
+            "title": "Fsc",
+            "default": 0
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Equal to \"total_rate - fsc\"",
+            "default": 0
+          },
+          "margin_final": {
+            "type": "number",
+            "title": "Margin Final",
+            "default": 0
+          },
+          "desired_margin": {
+            "type": "number",
+            "title": "Desired Margin",
+            "description": "Aka profit",
+            "default": 0
+          },
+          "expiration": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expiration"
+          },
+          "bid_post": {
+            "type": "boolean",
+            "title": "Bid Post",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "OutputBase"
+      },
+      "OutputBaseLineRate": {
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id",
+            "description": "Unique transaction identifier, transversal to all the APIs from which the request comes"
+          },
+          "exception_report_oid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Exception Report Oid"
+          },
+          "fail": {
+            "type": "boolean",
+            "title": "Fail",
+            "description": "Return True if any NO_GO events were found",
+            "default": false
+          },
+          "base_line_rate": {
+            "type": "number",
+            "title": "Base Line Rate",
+            "default": 0
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events",
+            "default": []
+          }
+        },
+        "type": "object",
+        "title": "OutputBaseLineRate"
+      },
+      "OutputEmail": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id",
+            "description": "Unique transaction identifier, transversal to all the APIs from which the request comes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "OutputEmail"
+      },
+      "OutputEquipmentType": {
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id",
+            "description": "Unique transaction identifier, transversal to all the APIs from which the request comes"
+          },
+          "trailer_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Trailer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Trailer Type"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events",
+            "default": []
+          }
+        },
+        "type": "object",
+        "title": "OutputEquipmentType"
+      },
+      "OutputFixedPriceLanes": {
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id",
+            "description": "Unique transaction identifier, transversal to all the APIs from which the request comes"
+          },
+          "fixed_price_lane": {
+            "type": "number",
+            "title": "Fixed Price Lane",
+            "default": 0
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "BASELINE_RATE",
+              "CONTRACTUAL_RATE"
+            ],
+            "title": "Action"
+          },
+          "report_oid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Report Oid"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events",
+            "default": []
+          }
+        },
+        "type": "object",
+        "title": "OutputFixedPriceLanes"
+      },
+      "OutputFlags": {
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id",
+            "description": "Unique transaction identifier, transversal to all the APIs from which the request comes"
+          },
+          "report_oid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Report Oid"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events",
+            "default": []
+          },
+          "bid_post": {
+            "type": "boolean",
+            "title": "Bid Post",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "OutputFlags"
+      },
+      "OutputRestricted": {
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id",
+            "description": "Unique transaction identifier, transversal to all the APIs from which the request comes"
+          },
+          "report_oid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Report Oid"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events",
+            "default": []
+          }
+        },
+        "type": "object",
+        "title": "OutputRestricted"
+      },
+      "PickUpOrDelivery": {
+        "properties": {
+          "city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "City"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1,
+            "title": "State"
+          },
+          "zip_code": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Zip Code"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "time": {
+            "type": "string",
+            "format": "time",
+            "title": "Time"
+          }
+        },
+        "type": "object",
+        "title": "PickUpOrDelivery"
+      },
+      "Report": {
+        "properties": {
+          "customer_id": {
+            "type": "integer",
+            "title": "Customer Id"
+          },
+          "customer_name": {
+            "type": "string",
+            "title": "Customer Name"
+          },
+          "load_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Load Id"
+          },
+          "equipment_type": {
+            "$ref": "#/components/schemas/Trailer"
+          },
+          "awarded": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NA"
+            ],
+            "title": "Awarded",
+            "default": "NA"
+          },
+          "pickup": {
+            "$ref": "#/components/schemas/PickUpOrDelivery"
+          },
+          "delivery": {
+            "$ref": "#/components/schemas/PickUpOrDelivery"
+          },
+          "pieces": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Pieces",
+            "default": 0
+          },
+          "dimensions": {
+            "type": "string",
+            "title": "Dimensions"
+          },
+          "weight": {
+            "type": "number",
+            "title": "Weight"
+          },
+          "commodity": {
+            "$ref": "#/components/schemas/Commodity"
+          },
+          "accesorials": {
+            "$ref": "#/components/schemas/Accesorials"
+          },
+          "miles": {
+            "type": "number",
+            "title": "Miles"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Quoted",
+              "Exception",
+              "Modified"
+            ],
+            "title": "Status",
+            "default": "Quoted"
+          },
+          "rate_load_board": {
+            "$ref": "#/components/schemas/LoadBoardRateList"
+          },
+          "final_rate": {
+            "type": "number",
+            "title": "Final Rate"
+          },
+          "profit": {
+            "type": "number",
+            "title": "Profit"
+          },
+          "weekend": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "after_hours": {
+            "type": "number",
+            "title": "After Hours"
+          },
+          "holidays": {
+            "type": "number",
+            "title": "Holidays"
+          },
+          "season": {
+            "type": "number",
+            "title": "Season"
+          },
+          "same_day_cutoff": {
+            "type": "number",
+            "title": "Same Day Cutoff"
+          },
+          "lead_time": {
+            "type": "number",
+            "title": "Lead Time"
+          },
+          "delivery_time_rate": {
+            "type": "number",
+            "title": "Delivery Time Rate"
+          },
+          "conditioned_lane": {
+            "type": "number",
+            "title": "Conditioned Lane"
+          },
+          "accesorial": {
+            "type": "number",
+            "title": "Accesorial"
+          },
+          "transit_time_rate": {
+            "type": "number",
+            "title": "Transit Time Rate"
+          },
+          "transit_time_delivery": {
+            "type": "number",
+            "title": "Transit Time Delivery"
+          },
+          "conditioned_location": {
+            "type": "number",
+            "title": "Conditioned Location"
+          },
+          "base_line_rate": {
+            "type": "number",
+            "title": "Base Line Rate"
+          },
+          "conditioned_weight": {
+            "type": "number",
+            "title": "Conditioned Weight"
+          },
+          "fixed_price_lane": {
+            "type": "number",
+            "title": "Fixed Price Lane"
+          },
+          "fsc": {
+            "type": "number",
+            "title": "Fsc"
+          },
+          "conditioned_origin": {
+            "type": "number",
+            "title": "Conditioned Origin"
+          },
+          "conditioned_destination": {
+            "type": "number",
+            "title": "Conditioned Destination"
+          },
+          "conditioned_consignee": {
+            "type": "number",
+            "title": "Conditioned Consignee"
+          },
+          "report": {
+            "$ref": "#/components/schemas/ReportList"
+          },
+          "margin": {
+            "type": "number",
+            "title": "Margin"
+          },
+          "average_rate_cad": {
+            "type": "number",
+            "title": "Average Rate Cad"
+          },
+          "stop": {
+            "$ref": "#/components/schemas/Stop"
+          },
+          "stop_rate": {
+            "type": "number",
+            "title": "Stop Rate"
+          },
+          "stop_number": {
+            "type": "number",
+            "title": "Stop Number"
+          },
+          "ttlr_origin": {
+            "$ref": "#/components/schemas/FromTo"
+          },
+          "ttlr_origin_ratio": {
+            "type": "number",
+            "title": "Ttlr Origin Ratio"
+          },
+          "ttlr_destination": {
+            "$ref": "#/components/schemas/FromTo"
+          },
+          "ttlr_destination_ratio": {
+            "type": "number",
+            "title": "Ttlr Destination Ratio"
+          },
+          "last_rate_posted": {
+            "type": "number",
+            "title": "Last Rate Posted"
+          },
+          "quote_amount_threshold": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "quote_amount_threshold_zip": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "quote_amount_threshold_city": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "quote_amount_threshold_state": {
+            "$ref": "#/components/schemas/OriginDeliveryRate"
+          },
+          "transaction_id": {
+            "type": "string",
+            "maxLength": 53,
+            "minLength": 53,
+            "title": "Transaction Id"
+          },
+          "cross_border_rate": {
+            "type": "number",
+            "title": "Cross Border Rate"
+          },
+          "rebid_minimum_rate": {
+            "type": "number",
+            "title": "Rebid Minimum Rate"
+          },
+          "rebid_count": {
+            "type": "integer",
+            "title": "Rebid Count"
+          },
+          "extra_charges_and_restrictions_rate": {
+            "type": "number",
+            "title": "Extra Charges And Restrictions Rate"
+          },
+          "temperature": {
+            "$ref": "#/components/schemas/TemperatureRate"
+          },
+          "lane_score_rate": {
+            "type": "number",
+            "title": "Lane Score Rate"
+          },
+          "international_shipment_rate": {
+            "type": "number",
+            "title": "International Shipment Rate"
+          },
+          "bid_post": {
+            "type": "boolean",
+            "title": "Bid Post"
+          },
+          "miles_with_stops": {
+            "type": "number",
+            "title": "Miles With Stops"
+          },
+          "base_line_with_stops_rate": {
+            "type": "number",
+            "title": "Base Line With Stops Rate"
+          },
+          "greenscreens_confidence_score_rate": {
+            "type": "number",
+            "title": "Greenscreens Confidence Score Rate"
+          },
+          "truckstop_score_rate": {
+            "type": "number",
+            "title": "Truckstop Score Rate"
+          },
+          "api": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Api"
+          },
+          "platform": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Platform"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Username"
+          },
+          "extra_report_fields": {
+            "$ref": "#/components/schemas/ExtraReportFields"
+          },
+          "conditioned_lane_state_rate": {
+            "type": "number",
+            "title": "Conditioned Lane State Rate"
+          },
+          "pickup_time_rate": {
+            "type": "number",
+            "title": "Pickup Time Rate"
+          },
+          "all_in_rate": {
+            "type": "number",
+            "title": "All In Rate"
+          },
+          "linehaul": {
+            "type": "boolean",
+            "title": "Linehaul"
+          },
+          "rate_board_10_url": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Rate Board 10 Url",
+            "description": "Hyperlink to the FWSonar engine dashboard"
+          },
+          "extra_data": {
+            "title": "Extra Data"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "ISO 8601 format"
+          },
+          "last_modified_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Modified At",
+            "description": "ISO 8601 format"
+          },
+          "_id": {
+            "type": "string",
+            "title": " Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "customer_id"
+        ],
+        "title": "Report"
+      },
+      "ReportItem": {
+        "properties": {
+          "rate": {
+            "type": "number",
+            "title": "Rate"
+          },
+          "report_id": {
+            "type": "string",
+            "title": "Report Id"
+          }
+        },
+        "type": "object",
+        "title": "ReportItem"
+      },
+      "ReportList": {
+        "properties": {
+          "reports": {
+            "items": {
+              "$ref": "#/components/schemas/ReportItem"
+            },
+            "type": "array",
+            "title": "Reports",
+            "examples": [
+              [
+                {
+                  "rate": 10.01,
+                  "report_id": "01"
+                },
+                {
+                  "rate": 0.0,
+                  "report_id": "02"
+                },
+                {
+                  "rate": 10.99,
+                  "report_id": "03"
+                },
+                {
+                  "rate": 10.1245,
+                  "report_id": "04"
+                }
+              ]
+            ]
+          }
+        },
+        "type": "object",
+        "title": "ReportList"
+      },
+      "Role": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          },
+          "role": {
+            "$ref": "#/components/schemas/RoleValue"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "role"
+        ],
+        "title": "Role"
+      },
+      "RoleValue": {
+        "type": "string",
+        "enum": [
+          "INTERNAL_ADMIN",
+          "COMPANY_ID",
+          "QUOTING_CALCULATION"
+        ],
+        "title": "RoleValue",
+        "description": "An enumeration."
+      },
+      "SMMetadata": {
+        "properties": {
+          "company_id": {
+            "type": "integer",
+            "title": "Company Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "company_id"
+        ],
+        "title": "SMMetadata",
+        "description": "The Secret Manager Metadata for the user"
+      },
+      "StatusResponse": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "environment": {
+            "$ref": "#/components/schemas/Environment"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "version",
+          "environment"
+        ],
+        "title": "StatusResponse"
+      },
+      "Stop": {
+        "properties": {
+          "stops": {
+            "items": {
+              "$ref": "#/components/schemas/Stops"
+            },
+            "type": "array",
+            "title": "Stops"
+          }
+        },
+        "type": "object",
+        "title": "Stop"
+      },
+      "StopCityV2": {
+        "properties": {
+          "country": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ISO31661Alfa3"
+              }
+            ],
+            "example": "USA"
+          },
+          "city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "City"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1,
+            "title": "State"
+          },
+          "zipcode": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Zipcode"
+          },
+          "miles": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Miles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "city",
+          "state"
+        ],
+        "title": "StopCityV2"
+      },
+      "Stops": {
+        "properties": {
+          "city": {
+            "type": "string",
+            "minLength": 1,
+            "title": "City"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1,
+            "title": "State"
+          },
+          "miles": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Miles"
+          }
+        },
+        "type": "object",
+        "title": "Stops"
+      },
+      "TemperatureRate": {
+        "properties": {
+          "temperature": {
+            "type": "string",
+            "title": "Temperature"
+          },
+          "rate": {
+            "type": "number",
+            "title": "Rate"
+          }
+        },
+        "type": "object",
+        "title": "TemperatureRate"
+      },
+      "Trailer": {
+        "type": "string",
+        "enum": [
+          "NOT_IDENTIFIED",
+          "VAN",
+          "FLATBED",
+          "REEFER",
+          "SPECIALIZED"
+        ],
+        "title": "Trailer",
+        "description": "An enumeration."
+      },
+      "Unit": {
+        "type": "string",
+        "enum": [
+          "PERCENTAGE",
+          "DOLLAR",
+          "TOTAL",
+          "DOLLAR_PER_MILLE"
+        ],
+        "title": "Unit",
+        "description": "Units available for a charge"
+      },
+      "User": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            },
+            "type": "array",
+            "title": "Roles"
+          },
+          "sm_metadata": {
+            "$ref": "#/components/schemas/SMMetadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "roles"
+        ],
+        "title": "User"
+      },
+      "UserCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/RoleValue"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "password",
+          "roles"
+        ],
+        "title": "UserCreate"
+      },
+      "UserUpdate": {
+        "properties": {
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/RoleValue"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object",
+        "required": [
+          "roles"
+        ],
+        "title": "UserUpdate"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBasicOptional": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "JWTBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
